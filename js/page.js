@@ -2,9 +2,28 @@
 let ctx = document.getElementById('monthlySales').getContext('2d'); 
 //do the same for the pie chart 
 let pieCtx = document.getElementById('deptSales').getContext('2d'); 
-//additional things needed for chart.js
-//define as 2D
-//build the chart 
+//additional things needed for chart.js; define as 2D
+let yearlyLabel = document.getElementById('yearlyTotal');
+
+let monthlySales = Array.of(12,9,3); 
+let monthlyLabels = Array.of('Oct','Nov','Dec'); 
+
+let deptSales = Array.of(12,9,3); 
+let deptLabels = Array.of('Hiking', 'Running', 'Hunting');
+
+function addYearlyTotal(a,b,c){
+    return a+b+c; 
+}
+
+let octNums = Array.of(1200, 1000, 9000); 
+let novNums = Array.of(1200, 1000, 9000); 
+let decNums = Array.of(1200, 1000, 9000); 
+
+let total = Array.of(addYearlyTotal(...octNums), addYearlyTotal(...novNums), addYearlyTotal(...decNums));
+//use ... to separate the parameters 
+//now the elements in monthlySales are passed in one at a time 
+let yearlyTotal = addYearlyTotal(...monthlySales); 
+yearlyLabel.innerHTML = "$" + yearlyTotal;  
 
 //create a bar chart 
 var monthlySalesChart = new Chart(ctx, {
