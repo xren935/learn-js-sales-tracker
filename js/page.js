@@ -1,58 +1,78 @@
-//looking for our monthly sale 
-let ctx = document.getElementById('monthlySales').getContext('2d'); 
-//do the same for the pie chart 
-let pieCtx = document.getElementById('deptSales').getContext('2d'); 
-//additional things needed for chart.js; define as 2D
-let yearlyLabel = document.getElementById('yearlyTotal');
+// Accessing the objects
+var ctx = document.getElementById('monthlySales').getContext('2d');
+var pieCtx = document.getElementById('deptSales').getContext('2d');
+var yearlyLabel = document.getElementById('yearlyTotal');
+var newAmount = document.getElementById('itemAmount');
+var newMonth = document.getElementById('monthId');
+let hikingRadio = document.getElementById('hiking');
+let runningRadio = document.getElementById('running');
+let huntingRadio = document.getElementById('hunting');
 
-let monthlySales = Array.of(12,9,3); 
-let monthlyLabels = Array.of('Oct','Nov','Dec'); 
+// Monthly Totals
+var yearlyTotal = 0;
 
-let deptSales = Array.of(12,9,3); 
-let deptLabels = Array.of('Hiking', 'Running', 'Hunting');
+const monthlySales = new Map();
 
-let yearlyTotal = 0; 
+{
+	let salesA = {
+		a:[1,2]
+	}
 
-function addYearlyTotal(x){
-    yearlyTotal = x + yearlyTotal; 
+	var map = new WeakMap();
+	map.set(salesA, 'Hiking');
+ 
+	console.log('First ' + salesA)
 }
 
-monthlySales.forEach(addYearlyTotal); 
+// console.log('Second ' + salesA);
 
-let octNums = Array.of(1200, 1000, 9000); 
-let novNums = Array.of(1200, 1000, 9000); 
-let decNums = Array.of(1200, 1000, 9000); 
+// Add Sales
+function addSale(){
+	monthlySales.set(newMonth.value, parseInt(newAmount.value))
+	
+	// Update our labels
+	monthlySalesChart.data.labels = Array.from(monthlySales.keys());
 
-let total = Array.of(addYearlyTotal(...octNums), addYearlyTotal(...novNums), addYearlyTotal(...decNums));
-//use ... to separate the parameters 
-//now the elements in monthlySales are passed in one at a time 
-let yearlyTotal = addYearlyTotal(...monthlySales); 
-yearlyLabel.innerHTML = "$" + yearlyTotal;  
+	yearlyTotal = 0;
 
-function findOver1000(){
-    let firstThousand = monthlySales.findIndex(element => element > 1000); //findIndex VS find 
+	monthlySalesChart.data.datasets.forEach((dataset) => {
+	    dataset.data = [];
+	});
+
+	for (let amount of monthlySales.values()){
+		yearlyTotal = amount + yearlyTotal;
+		yearlyLabel.innerHTML = yearlyTotal;
+
+		monthlySalesChart.data.datasets.forEach((dataset) => {
+	        dataset.data.push(amount);
+	    });
+	}
+
+	monthlySalesChart.update();
+
 }
 
-//reset data 
-function resetNum(){
-    monthlySales.fill(0); //to fill an array with 0's 
-    monthlySalesChart.update(); 
+function findSale(){
+	
 }
 
-//create a bar chart 
+function fillValue(){
+	
+}
+// Bar chart
 var monthlySalesChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: monthlyLabels,
+        labels: [],
         datasets: [{
             label: '# of Sales',
-            data: monthlySales,
+            data: [],
             backgroundColor: [
                 'rgba(238, 184, 104, 1)',
                 'rgba(75, 166, 223, 1)',
                 'rgba(239, 118, 122, 1)',
             ],
-            borderWidth: 0 //starting at 0 
+            borderWidth: 0
         }]
     },
     options: {
@@ -66,23 +86,23 @@ var monthlySalesChart = new Chart(ctx, {
     }
 });
 
-//Create a pie chart using chart js 
-var deptSalesChart = new Chart(pieCtx, {
-    type: 'pie',
-    data: {
-        labels: deptLabels,
-        datasets: [{
-            label: '# of Sales',
-            data: deptSales,
-            backgroundColor: [
-                'rgba(238, 184, 104, 1)',
-                'rgba(75, 166, 223, 1)',
-                'rgba(239, 118, 122, 1)',
-            ],
-            borderWidth: 0
-        }]
-    },
-    options: {
+// Pie Chart
+// var deptSalesChart = new Chart(pieCtx, {
+//     type: 'pie',
+//     data: {
+//         labels: deptLabels,
+//         datasets: [{
+//             label: '# of Sales',
+//             data: deptSales,
+//             backgroundColor: [
+//                 'rgba(238, 184, 104, 1)',
+//                 'rgba(75, 166, 223, 1)',
+//                 'rgba(239, 118, 122, 1)',
+//             ],
+//             borderWidth: 0
+//         }]
+//     },
+//     options: {
         
-    }
-})
+//     }
+// })
