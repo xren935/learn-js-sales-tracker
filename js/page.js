@@ -4,6 +4,7 @@ var pieCtx = document.getElementById('deptSales').getContext('2d');
 var yearlyLabel = document.getElementById('yearlyTotal');
 var newAmount = document.getElementById('itemAmount');
 var newMonth = document.getElementById('monthId');
+
 let hikingRadio = document.getElementById('hiking');
 let runningRadio = document.getElementById('running');
 let huntingRadio = document.getElementById('hunting');
@@ -26,7 +27,7 @@ const monthlySales = new Map();
 
 // console.log('Second ' + salesA);
 
-// Add Sales
+// Add Sales to the set 
 function addSale(){
 	monthlySales.set(newMonth.value, parseInt(newAmount.value))
 	
